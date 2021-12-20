@@ -29,26 +29,9 @@ const removeContact = async contactId => {
     return contacts;
   }
   return null;
-
-  /// НЕ РОЗУМІЮ ЧОМУ НАВЕДЕНИЙ НИЖЧЕ ВАРІАНТ НЕ ПРАЦЮЄ, ЗАМІНЮЄ КОНТАКТ ПОПЕРЕДНЬО ВИДАЛЕНИМ...В ПЕРШІЙ ДЗ ВСЕ ПРАЦЮВАЛО ОК...
-
-  // const contact = contacts.find(contact => contact.id === contactId);
-  // console.log(contact);
-  // if (!contact) {
-  //   return null;
-  // }
-  // const updContacts = contacts.filter(contact => contact.id !== contactId);
-  // console.log(updContacts);
-  // await fs.writeFile(
-  //   path.join(__dirname, 'contacts.json'),
-  //   JSON.stringify(updContacts, null, 2),
-  // );
 };
 
 const addContact = async ({ name, email, phone }) => {
-  if (name === undefined || email === undefined || phone === undefined) {
-    return null;
-  }
   const newContact = { id: randomUUID(), name, email, phone };
   contacts.push(newContact);
   await fs.writeFile(
@@ -59,8 +42,6 @@ const addContact = async ({ name, email, phone }) => {
 };
 
 const updateContact = async (contactId, body) => {
-  if (!body) {
-  }
   const index = contacts.findIndex(contact => contact.id === contactId);
   if (index !== -1) {
     const updatedContact = { id: contactId, ...contacts[index], ...body };
