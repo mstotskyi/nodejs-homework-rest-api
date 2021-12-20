@@ -7,7 +7,7 @@ import contacts from './contacts.json';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const listContacts = async () => {
+const listContacts = () => {
   return contacts;
 };
 
@@ -17,7 +17,6 @@ const getContactById = async contactId => {
 };
 
 const removeContact = async contactId => {
-  console.log(contacts);
   const index = contacts.findIndex(contact => contact.id === contactId);
   if (index !== -1) {
     contacts.splice(index, 1);
@@ -44,8 +43,7 @@ const addContact = async ({ name, email, phone }) => {
 const updateContact = async (contactId, body) => {
   const index = contacts.findIndex(contact => contact.id === contactId);
   if (index !== -1) {
-    const updatedContact = { id: contactId, ...contacts[index], ...body };
-    console.log(updatedContact);
+    const updatedContact = { ...contacts[index], ...body };
     contacts[index] = updatedContact;
     await fs.writeFile(
       path.join(__dirname, 'contacts.json'),
