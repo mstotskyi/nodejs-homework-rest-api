@@ -3,13 +3,7 @@ import path from 'path';
 import { randomUUID } from 'crypto';
 import { fileURLToPath } from 'url';
 
-// import contacts from './contacts.json';
-
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
-// const listContacts = () => {
-//   return contacts;
-// };
 
 const getList = async () => {
   const json = await fs.readFile(
