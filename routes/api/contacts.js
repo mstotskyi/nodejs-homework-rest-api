@@ -10,7 +10,7 @@ import {
 const router = express.Router();
 
 router.get('/', async (req, res, next) => {
-  const contacts = await model.listContacts();
+  const contacts = await model.getList();
   res.status(200).json(contacts);
 });
 
