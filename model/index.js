@@ -1,20 +1,68 @@
-// const fs = require('fs/promises')
-// const contacts = require('./contacts.json')
+import fs from 'fs/promises';
+import path from 'path';
+import { randomUUID } from 'crypto';
+import { fileURLToPath } from 'url';
 
-const listContacts = async () => {}
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-const getContactById = async (contactId) => {}
+const getList = async () => {
+  const json = await fs.readFile(
+    path.join(__dirname, 'contacts.json'),
+    'utf-8',
+  );
+  return JSON.parse(json);
+};
 
-const removeContact = async (contactId) => {}
+const getContactById = async contactId => {
+  const contacts = await getList();
+  const contact = contacts.find(contact => contact.id === contactId);
+  return contact;
+};
 
-const addContact = async (body) => {}
+const removeContact = async contactId => {
+  const contacts = await getList();
+  const index = contacts.findIndex(contact => contact.id === contactId);
+  if (index !== -1) {
+    contacts.splice(index, 1);
+    await fs.writeFile(
+      path.join(__dirname, 'contacts.json'),
+      JSON.stringify(contacts, null, 2),
+    );
+    return contacts;
+  }
+  return null;
+};
 
-const updateContact = async (contactId, body) => {}
+const addContact = async ({ name, email, phone }) => {
+  const newContact = { id: randomUUID(), name, email, phone };
+  const contacts = await getList();
+  contacts.push(newContact);
+  await fs.writeFile(
+    path.join(__dirname, 'contacts.json'),
+    JSON.stringify(contacts, null, 2),
+  );
+  return newContact;
+};
 
-module.exports = {
-  listContacts,
+const updateContact = async (contactId, body) => {
+  const contacts = await getList();
+  const index = contacts.findIndex(contact => contact.id === contactId);
+  if (index !== -1) {
+    const updatedContact = { ...contacts[index], ...body };
+    contacts[index] = updatedContact;
+    await fs.writeFile(
+      path.join(__dirname, 'contacts.json'),
+      JSON.stringify(contacts, null, 2),
+    );
+    return updatedContact;
+  }
+  return null;
+};
+
+export default {
+  getList,
   getContactById,
   removeContact,
   addContact,
   updateContact,
-}
+};
