@@ -1,5 +1,8 @@
 import Joi from 'Joi';
 
+import mongoose from 'mongoose';
+const { Types } = mongoose;
+
 const createContactSchema = Joi.object({
   name: Joi.string().required(),
   email: Joi.string().email().required(),
@@ -10,15 +13,16 @@ const updateContactSchema = Joi.object({
   name: Joi.string().optional(),
   email: Joi.string().email().optional(),
   phone: Joi.string().optional(),
+  favorite: Joi.bool().optional(),
 }).or('name', 'email', 'phone');
 
-const idSchema = Joi.object({
-  id: Joi.string().required(),
+const updateFavoriteSchema = Joi.object({
+  favorite: Joi.bool().required(),
 });
 
 export const validationNewContact = async (req, res, next) => {
   try {
-    const value = await createContactSchema.validateAsync(req.body);
+    await createContactSchema.validateAsync(req.body);
   } catch (error) {
     return res
       .status(400)
@@ -29,7 +33,7 @@ export const validationNewContact = async (req, res, next) => {
 
 export const validationUpdatedContact = async (req, res, next) => {
   try {
-    const value = await updateContactSchema.validateAsync(req.body);
+    await updateContactSchema.validateAsync(req.body);
   } catch (error) {
     return res.status(400).json({ message: 'missing fields' });
   }
@@ -37,10 +41,17 @@ export const validationUpdatedContact = async (req, res, next) => {
 };
 
 export const validationId = async (req, res, next) => {
+  if (!Types.ObjectId.isValid(req.params.id)) {
+    return res.status(400).json({ message: 'Invalid ObjectId' });
+  }
+  next();
+};
+
+export const validationUpdateFavorite = async (req, res, next) => {
   try {
-    const value = await idSchema.validateAsync(req.params);
+    await updateFavoriteSchema.validateAsync(req.body);
   } catch (error) {
-    return res.status(400).json({ message: error.message.replace(/"/g, '') });
+    return res.status(400).json({ message: 'missing field favorite' });
   }
   next();
 };
