@@ -1,4 +1,5 @@
 import Joi from 'Joi';
+import { HttpCode } from '../../../libs/constants';
 
 import mongoose from 'mongoose';
 const { Types } = mongoose;
@@ -25,7 +26,7 @@ export const validationNewContact = async (req, res, next) => {
     await createContactSchema.validateAsync(req.body);
   } catch (error) {
     return res
-      .status(400)
+      .status(HttpCode.BAD_REQUEST)
       .json({ message: `Field ${error.message.replace(/"/g, '')}` });
   }
   next();
@@ -35,14 +36,16 @@ export const validationUpdatedContact = async (req, res, next) => {
   try {
     await updateContactSchema.validateAsync(req.body);
   } catch (error) {
-    return res.status(400).json({ message: 'missing fields' });
+    return res.status(HttpCode.BAD_REQUEST).json({ message: 'missing fields' });
   }
   next();
 };
 
 export const validationId = async (req, res, next) => {
   if (!Types.ObjectId.isValid(req.params.id)) {
-    return res.status(400).json({ message: 'Invalid ObjectId' });
+    return res
+      .status(HttpCode.BAD_REQUEST)
+      .json({ message: 'Invalid ObjectId' });
   }
   next();
 };
@@ -51,7 +54,9 @@ export const validationUpdateFavorite = async (req, res, next) => {
   try {
     await updateFavoriteSchema.validateAsync(req.body);
   } catch (error) {
-    return res.status(400).json({ message: 'missing field favorite' });
+    return res
+      .status(HttpCode.BAD_REQUEST)
+      .json({ message: 'missing field favorite' });
   }
   next();
 };
