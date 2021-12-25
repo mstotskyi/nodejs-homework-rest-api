@@ -1,5 +1,6 @@
 import Joi from 'Joi';
 import { HttpCode } from '../../../libs/constants';
+import { ValidationMessages } from '../../../libs/messages';
 
 import mongoose from 'mongoose';
 const { Types } = mongoose;
@@ -32,11 +33,13 @@ export const validationNewContact = async (req, res, next) => {
   next();
 };
 
-export const validationUpdatedContact = async (req, res, next) => {
+export const validationUpdateContact = async (req, res, next) => {
   try {
     await updateContactSchema.validateAsync(req.body);
   } catch (error) {
-    return res.status(HttpCode.BAD_REQUEST).json({ message: 'missing fields' });
+    return res
+      .status(HttpCode.BAD_REQUEST)
+      .json({ message: `${ValidationMessages.UPDATE_CONTACT_MSG}` });
   }
   next();
 };
@@ -45,7 +48,7 @@ export const validationId = async (req, res, next) => {
   if (!Types.ObjectId.isValid(req.params.id)) {
     return res
       .status(HttpCode.BAD_REQUEST)
-      .json({ message: 'Invalid ObjectId' });
+      .json({ message: `${ValidationMessages.VALIDATION_ID_MSG}` });
   }
   next();
 };
@@ -56,7 +59,7 @@ export const validationUpdateFavorite = async (req, res, next) => {
   } catch (error) {
     return res
       .status(HttpCode.BAD_REQUEST)
-      .json({ message: 'missing field favorite' });
+      .json({ message: `${ValidationMessages.UPDATE_FAVORITE_MSG}` });
   }
   next();
 };

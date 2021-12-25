@@ -11,7 +11,7 @@ import {
 
 import {
   validationNewContact,
-  validationUpdatedContact,
+  validationUpdateContact,
   validationId,
   validationUpdateFavorite,
 } from './validation';
@@ -26,7 +26,7 @@ router.post('/', validationNewContact, addContact);
 
 router.delete('/:id', validationId, removeContact);
 
-router.put('/:id', validationId, validationUpdatedContact, updateContact);
+router.put('/:id', validationId, validationUpdateContact, updateContact);
 
 router.patch('/:id/favorite', validationUpdateFavorite, updateStatusContact);
 

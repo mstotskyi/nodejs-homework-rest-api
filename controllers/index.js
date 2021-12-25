@@ -1,6 +1,8 @@
 import repoContacts from '../repository/contacts';
 import { HttpCode } from '../libs/constants';
 
+import { ContactsMessages } from '../libs/messages';
+
 export const listContacts = async (req, res, next) => {
   const contacts = await repoContacts.listContacts();
   res.status(HttpCode.OK).json(contacts);
@@ -13,7 +15,9 @@ export const getContactById = async (req, res, next) => {
     return res.status(HttpCode.OK).json(contact);
   }
 
-  res.status(HttpCode.NOT_FOUND).json({ message: 'Not found' });
+  res
+    .status(HttpCode.NOT_FOUND)
+    .json({ message: `${ContactsMessages.NOT_FOUND}` });
 };
 
 export const addContact = async (req, res, next) => {
@@ -25,9 +29,13 @@ export const removeContact = async (req, res, next) => {
   const { id } = req.params;
   const removedContact = await repoContacts.removeContact(id);
   if (removedContact) {
-    return res.status(HttpCode.OK).json({ message: 'contact deleted' });
+    return res
+      .status(HttpCode.OK)
+      .json({ message: `${ContactsMessages.DELETED}` });
   }
-  res.status(HttpCode.NOT_FOUND).json({ message: 'Not found' });
+  res
+    .status(HttpCode.NOT_FOUND)
+    .json({ message: `${ContactsMessages.NOT_FOUND}` });
 };
 
 export const updateContact = async (req, res, next) => {
@@ -36,7 +44,9 @@ export const updateContact = async (req, res, next) => {
   if (updatedContact) {
     return res.status(HttpCode.OK).json(updatedContact);
   }
-  res.status(HttpCode.NOT_FOUND).json({ message: 'Not found' });
+  res
+    .status(HttpCode.NOT_FOUND)
+    .json({ message: `${ContactsMessages.NOT_FOUND}` });
 };
 
 export const updateStatusContact = async (req, res, next) => {
@@ -45,5 +55,7 @@ export const updateStatusContact = async (req, res, next) => {
   if (updatedContact) {
     return res.status(HttpCode.OK).json(updatedContact);
   }
-  res.status(HttpCode.NOT_FOUND).json({ message: 'Not found' });
+  res
+    .status(HttpCode.NOT_FOUND)
+    .json({ message: `${ContactsMessages.NOT_FOUND}` });
 };

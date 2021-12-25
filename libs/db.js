@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { DBMessages } from '../libs/messages';
 
 const { connect, connection } = mongoose;
 
@@ -7,20 +8,20 @@ const uri = process.env.URI_DB;
 const db = connect(uri);
 
 connection.on('connected', () => {
-  console.log('Database connection successful');
+  console.log(`${DBMessages.CONNECTED}`);
 });
 
 connection.on('err', err => {
-  console.log(`Database connection error: ${err.message}`);
+  console.log(`${DBMessages.ERR} ${err.message}`);
 });
 
 connection.on('disconnected', () => {
-  console.log('Database disconnected');
+  console.log(`${DBMessages.DISCONNECTED}`);
 });
 
 process.on('SIGINT', async () => {
   connection.close();
-  console.log('Connection DB closed');
+  console.log(`${DBMessages.SIGINT_MSG}`);
   process.exit(1);
 });
 

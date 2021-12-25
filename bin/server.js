@@ -1,12 +1,13 @@
 import app from '../app.js';
 import db from '../libs/db';
+import { ServerMessages } from '../libs/messages';
 
 const PORT = process.env.PORT || 3000;
 
 db.then(() => {
   app.listen(PORT, () => {
-    console.log(`Server running. Use our API on port: ${PORT}`);
+    console.log(`${ServerMessages.SERVER_RUNNING} ${PORT}`);
   });
 }).catch(err => {
-  console.log(`Server not running.Error: ${err.message}`);
+  console.log(`${ServerMessages.SERVER_NOT_RUNNING} ${err.message}`);
 });

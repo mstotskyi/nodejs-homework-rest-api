@@ -1,11 +1,14 @@
 import mongoose from 'mongoose';
+
+import { ContactSchemaMSG } from '../libs/messages';
+
 const { Schema, model } = mongoose;
 
 const contactSchema = new Schema(
   {
     name: {
       type: String,
-      required: [true, 'Set name for contact'],
+      required: [true, `${ContactSchemaMSG.REQUIRE_NAME}`],
     },
     email: {
       type: String,
