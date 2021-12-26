@@ -6,7 +6,6 @@ import {
   addContact,
   removeContact,
   updateContact,
-  updateStatusContact,
 } from '../../../controllers/index.js';
 
 import {
@@ -28,6 +27,6 @@ router.delete('/:id', validationId, removeContact);
 
 router.put('/:id', validationId, validationUpdateContact, updateContact);
 
-router.patch('/:id/favorite', validationUpdateFavorite, updateStatusContact);
+router.patch('/:id/favorite', validationUpdateFavorite, updateContact);
 
 export default router;

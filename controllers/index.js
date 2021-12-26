@@ -48,14 +48,3 @@ export const updateContact = async (req, res, next) => {
     .status(HttpCode.NOT_FOUND)
     .json({ message: `${ContactsMessages.NOT_FOUND}` });
 };
-
-export const updateStatusContact = async (req, res, next) => {
-  const { id } = req.params;
-  const updatedContact = await repoContacts.updateStatusContact(id, req.body);
-  if (updatedContact) {
-    return res.status(HttpCode.OK).json(updatedContact);
-  }
-  res
-    .status(HttpCode.NOT_FOUND)
-    .json({ message: `${ContactsMessages.NOT_FOUND}` });
-};
