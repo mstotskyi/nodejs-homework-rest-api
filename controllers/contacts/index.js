@@ -1,7 +1,7 @@
-import repoContacts from '../repository/contacts';
-import { HttpCode } from '../libs/constants';
+import repoContacts from '../../repository/contacts';
+import { HttpCode } from '../../libs/constants';
 
-import { ContactsMessages } from '../libs/messages';
+import { ContactsMessages } from '../../libs/messages';
 
 export const listContacts = async (req, res, next) => {
   const contacts = await repoContacts.listContacts();
