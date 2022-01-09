@@ -40,6 +40,34 @@ export const login = async (req, res, next) => {
   });
 };
 
+export const current = (req, res, next) => {
+  console.log(req.user);
+  const { email, subscription } = req.user;
+  res.status(HttpCode.OK).json({
+    status: 'success',
+    code: HttpCode.OK,
+    data: { email, subscription },
+  });
+};
+
 export const logout = async (req, res, next) => {
-  res.status(HttpCode.OK).json();
+  await authService.setToken(req.user.id, null);
+  res.status(HttpCode.NO_CONTENT).json({
+    status: 'success',
+    code: HttpCode.NO_CONTENT,
+  });
+};
+
+export const updateSubscription = async (req, res, next) => {
+  const { id, subscription } = req.body;
+  console.log(req.body);
+  const { name, email } = await authService.updateUserSubscription(
+    id,
+    subscription,
+  );
+  res.status(HttpCode.OK).json({
+    status: 'success',
+    code: HttpCode.OK,
+    data: { id, name, email, subscription },
+  });
 };

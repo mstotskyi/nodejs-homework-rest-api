@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 import { ContactSchemaMSG } from '../libs/messages';
 
-const { Schema, model } = mongoose;
+const { Schema, SchemaTypes, model } = mongoose;
 
 const contactSchema = new Schema(
   {
@@ -20,8 +20,14 @@ const contactSchema = new Schema(
       type: Boolean,
       default: false,
     },
+    owner: {
+      type: SchemaTypes.ObjectId,
+      ref: 'user',
+      required: true,
+    },
   },
   {
+    versionKey: false,
     toJSON: {
       virtuals: true,
       transform: function (doc, ret) {
