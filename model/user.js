@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcryptjs';
 
-// import { ContactSchemaMSG } from '../libs/messages';
-
 const { Schema, model } = mongoose;
 
 const userSchema = new Schema({
