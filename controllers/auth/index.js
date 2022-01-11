@@ -41,7 +41,6 @@ export const login = async (req, res, next) => {
 };
 
 export const current = (req, res, next) => {
-  console.log(req.user);
   const { email, subscription } = req.user;
   res.status(HttpCode.OK).json({
     status: 'success',
