@@ -6,7 +6,7 @@ import {
   addContact,
   removeContact,
   updateContact,
-} from '../../../controllers/index.js';
+} from '../../../controllers/contacts/index.js';
 
 import {
   validationNewContact,
@@ -15,18 +15,20 @@ import {
   validationUpdateFavorite,
 } from './validation';
 
+import guard from '../../../middlewares/guard.js';
+
 const router = express.Router();
 
-router.get('/', listContacts);
+router.get('/', guard, listContacts);
 
-router.get('/:id', validationId, getContactById);
+router.get('/:id', guard, validationId, getContactById);
 
-router.post('/', validationNewContact, addContact);
+router.post('/', guard, validationNewContact, addContact);
 
-router.delete('/:id', validationId, removeContact);
+router.delete('/:id', guard, validationId, removeContact);
 
-router.put('/:id', validationId, validationUpdateContact, updateContact);
+router.put('/:id', guard, validationId, validationUpdateContact, updateContact);
 
-router.patch('/:id/favorite', validationUpdateFavorite, updateContact);
+router.patch('/:id/favorite', guard, validationUpdateFavorite, updateContact);
 
 export default router;

@@ -22,5 +22,8 @@ export const ContactSchemaMSG = {
 export const ValidationMessages = {
   UPDATE_CONTACT_MSG: 'missing fields',
   VALIDATION_ID_MSG: 'Invalid ObjectId',
-  UPDATE_FAVORITE_MSG: 'missing field favorite',
+  UPDATE_FAVORITE_MSG: 'Missing field favorite',
+  LOGIN_MSG: 'Invalid credentials',
+  TOKEN_MSG: 'Not authorized',
+  SUBSCRIPTION_MSG: 'Missing field subscription',
 };
