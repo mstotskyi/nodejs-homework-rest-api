@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import Users from '../repository/users';
+import Users from '../../repository/users';
 
 const SECRET_KEY = process.env.JWT_SECRET_KEY;
 
@@ -10,11 +10,12 @@ class AuthService {
   }
 
   async create(body) {
-    const { id, name, email } = await Users.create(body);
+    const { id, name, email, avatar } = await Users.create(body);
     return {
       id,
       name,
       email,
+      avatar,
     };
   }
 

@@ -17,6 +17,10 @@ const updateToken = async (id, token) => {
   return await User.updateOne({ _id: id }, { token });
 };
 
+const updateAvatar = async (id, avatar, cloudAvatarId = null) => {
+  return await User.updateOne({ _id: id }, { avatar, cloudAvatarId });
+};
+
 const updateUserSubscription = async (id, subscription) => {
   return await User.findOneAndUpdate(
     { _id: id },
@@ -31,4 +35,5 @@ export default {
   create,
   updateToken,
   updateUserSubscription,
+  updateAvatar,
 };

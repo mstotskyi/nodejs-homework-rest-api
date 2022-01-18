@@ -16,3 +16,5 @@ export const Subscription = {
   PRO: 'pro',
   BUSINESS: 'bussiness',
 };
+
+export const CLOUD_AVATARS_FOLDER = 'Avatars';
