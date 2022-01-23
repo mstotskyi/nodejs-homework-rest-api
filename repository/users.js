@@ -8,6 +8,10 @@ const findByEmail = async email => {
   return await User.findOne({ email });
 };
 
+const findByVerifyToken = async verifyToken => {
+  return await User.findOne({ verifyToken });
+};
+
 const create = async body => {
   const user = new User(body);
   return await user.save();
@@ -15,6 +19,13 @@ const create = async body => {
 
 const updateToken = async (id, token) => {
   return await User.updateOne({ _id: id }, { token });
+};
+
+const updateVerify = async (id, status) => {
+  return await User.updateOne(
+    { _id: id },
+    { isVerify: status, verifyToken: null },
+  );
 };
 
 const updateAvatar = async (id, avatar, cloudAvatarId = null) => {
@@ -36,4 +47,6 @@ export default {
   updateToken,
   updateUserSubscription,
   updateAvatar,
+  findByVerifyToken,
+  updateVerify,
 };
