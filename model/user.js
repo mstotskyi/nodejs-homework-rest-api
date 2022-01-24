@@ -41,7 +41,7 @@ const userSchema = new Schema({
   isVerify: { type: Boolean, default: false },
   verifyToken: {
     type: String,
-    default: randomUUID(),
+    default: randomUUID,
   },
 });
 
