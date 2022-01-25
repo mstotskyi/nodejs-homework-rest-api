@@ -1,5 +1,6 @@
 import { HttpCode } from '../../libs/constants';
 import AuthService from '../../service/auth';
+import { EmailService, SenderSendGrid } from '../../service/email';
 
 const authService = new AuthService();
 
@@ -14,10 +15,21 @@ export const registration = async (req, res, next) => {
     });
   }
   const data = await authService.create(req.body);
-  res.status(HttpCode.OK).json({
+  const emailService = new EmailService(
+    process.env.NODE_ENV,
+    new SenderSendGrid(),
+  );
+  const isSend = await emailService.sendVerifyEmail(
+    data.email,
+    data.name,
+    data.verifyToken,
+  );
+  delete data.verifyToken;
+
+  res.status(HttpCode.CREATED).json({
     status: 'success',
-    code: HttpCode.OK,
-    data,
+    code: HttpCode.CREATED,
+    data: { ...data, isSendEmailVerify: isSend },
   });
 };
 
@@ -28,7 +40,7 @@ export const login = async (req, res, next) => {
     return res.status(HttpCode.UNAUTHORIZED).json({
       status: 'error',
       code: HttpCode.UNAUTHORIZED,
-      message: 'Not authorized',
+      message: 'Invalid credentials',
     });
   }
   const token = authService.getToken(user);
@@ -59,7 +71,6 @@ export const logout = async (req, res, next) => {
 
 export const updateSubscription = async (req, res, next) => {
   const { id, subscription } = req.body;
-  console.log(req.body);
   const { name, email } = await authService.updateUserSubscription(
     id,
     subscription,
